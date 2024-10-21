@@ -4,6 +4,7 @@ const getTableHeader = document.querySelectorAll('table th');
 const getTBody = document.querySelectorAll('tbody tr');
 
 getTableHeader.forEach((header) => {
+  // eslint-disable-next-line no-shadow
   header.addEventListener('click', function (event) {
     const getClickOnHeader = event.target.closest('th');
 
@@ -23,7 +24,7 @@ getTableHeader.forEach((header) => {
       getTBody.forEach((itemName, index) => {
         const getCellersName = itemName.cells[0];
 
-        getCellersName.textContent = arrForName[index] || ''; // Оновлюємо текст комірки
+        getCellersName.textContent = arrForName[index] || '';
       });
     }
 
@@ -73,7 +74,15 @@ getTableHeader.forEach((header) => {
         arraySalary.push(getCellersSalary.textContent);
       });
 
-      arraySalary.sort((a, b) => (+a) - (+b));
+      // eslint-disable-next-line no-inner-declarations
+      function transformIntoNumberFromSalary(str) {
+        return +str.replace(/[^0-9.-]+/g, '');
+      }
+
+      arraySalary.sort(
+        (a, b) =>
+          transformIntoNumberFromSalary(a) - transformIntoNumberFromSalary(b),
+      );
 
       getTBody.forEach((itemSalary, index) => {
         const getCellersSalary = itemSalary.cells[3];
